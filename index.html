@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>No Respawn Tour - Progress Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #012240;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+        .card {
+            max-width: 500px;
+            margin: auto;
+            background: #1a1f3c;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        p.subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #a0a0c0;
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #c0c0e0;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            margin-top: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background: #2a2f55;
+            color: #fff;
+        }
+        input:focus {
+            outline: 2px solid #5b6cff;
+        }
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: #5b6cff;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #4a5cee;
+        }
+        .progress-box {
+            margin-top: 25px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #2a2f55;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #5b6cff, #8a9eff);
+            transition: width 0.4s ease;
+        }
+        .stats {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 15px;
+            color: #c0c0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>No Respawn Tour</h1>
+        <p class="subtitle">Track your tournament progress</p>
+
+        <label for="totalMatches">Total Matches</label>
+        <input type="number" id="totalMatches" placeholder="Enter total matches" min="1">
+
+        <label for="completedMatches">Completed Matches</label>
+        <input type="number" id="completedMatches" placeholder="Enter completed matches" min="0">
+
+        <button onclick="calculateProgress()">Calculate Progress</button>
+
+        <div class="progress-box">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="stats" id="statsText">Progress: 0% (0/0)</div>
+        </div>
+    </div>
+
+    <script>
+        function calculateProgress() {
+            const total = Number(document.getElementById('totalMatches').value);
+            const completed = Number(document.getElementById('completedMatches').value);
+
+            // Validation
+            if (!total || total <= 0) {
+                alert('Please enter a valid total number of matches (greater than 0)');
+                return;
+            }
+            
+            if (completed < 0) {
+                alert('Completed matches cannot be negative');
+                return;
+            }
+            
+            if (completed > total) {
+                alert('Completed matches cannot exceed total matches');
+                return;
+            }
+
+            const percent = Math.round((completed / total) * 100);
+            
+            // Update progress bar
+            document.getElementById('progressFill').style.width = percent + '%';
+            
+            // Update stats text
+            document.getElementById('statsText').innerHTML = 
+                `Progress: ${percent}% (${completed}/${total} matches)`;
+        }
+    </script>
+</body>
+</html>
